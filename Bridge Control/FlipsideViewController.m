@@ -18,6 +18,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self refreshFields];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UIApplication *app=[UIApplication sharedApplication];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:app];
+}
+
+-(void)willEnterForeground:(NSNotification *)notification
+{
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
+    [self refreshFields];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,12 +60,10 @@
     [defaults synchronize];
 }
 
-
 - (IBAction)done:(id)sender {
     [self.delegate flipsideViewControllerDidFinish:self];
     NSLog(@"done被按下");
 }
-
 /*
 #pragma mark - Navigation
 

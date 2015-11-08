@@ -56,14 +56,27 @@
     NSLog(@"翻转结束");
 }
 
-/*
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UIApplication *app=[UIApplication sharedApplication];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:app];
+}
+
+-(void)willEnterForeground:(NSNotification *)notification
+{
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
+    [self refreshFields];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    FlipsideViewController *fsVC=[segue destinationViewController];
+    fsVC.delegate=self;
 }
-*/
 
 @end
