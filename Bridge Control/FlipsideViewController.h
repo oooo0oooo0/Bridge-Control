@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class FlipsideViewController;
-
+//定义一个委托
 @protocol FlipsideViewControllerDelegate
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller;
 @end
 
 @interface FlipsideViewController : UIViewController
+//实现本委托的对象
 @property(weak,nonatomic) id<FlipsideViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UISwitch *engineSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *warpFactorSlider;

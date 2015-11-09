@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MainViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    //程序启动完毕后设置默认值
+    NSDictionary *defaults = @{kWarpDriveKey : @YES,
+                               kWarpFactorKey : @5,
+                               kFavoriteAlienKey : @"Vulcan"};
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     return YES;
 }
 

@@ -23,6 +23,7 @@
 
 @implementation MainViewController
 
+//刷新界面
 - (void)refreshFields {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.officerLabel.text = [defaults objectForKey:kOfficerKey];
@@ -38,32 +39,39 @@
     self.favoriteGadgetLabel.text = [defaults objectForKey:kFavoriteGadgetKey];
     self.favoriteAlienLabel.text = [defaults objectForKey:kFavoriteAlienKey];
 }
+
+//界面加载完毕后调用
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self refreshFields];
-    NSLog(@"我胡汉三又回来了！");
+    NSLog(@"MainViewController--viewDidAppear");
 }
 
+//界面第一次加载完成后调用
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    NSLog(@"MainViewController--viewDidLoad");
 }
 
+//翻转结束后的回调方法
 -(void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     NSLog(@"翻转结束");
 }
 
+//界面加载好之前调用
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    //当前控制器订阅UIApplicationWillEnterForegroundNotification(应用从后台变为前台应用)通知
     UIApplication *app=[UIApplication sharedApplication];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:app];
+    NSLog(@"MainViewController--viewWillAppear");
 }
 
+// 界面成为前台时的回调方法
 -(void)willEnterForeground:(NSNotification *)notification
 {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
@@ -73,7 +81,7 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+// 转场之前设置委托
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     FlipsideViewController *fsVC=[segue destinationViewController];
     fsVC.delegate=self;

@@ -17,35 +17,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self refreshFields];
+    NSLog(@"FlipsideViewController--viewDidLoad");
 }
 
+//界面加载完成之前调用
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    //订阅通知
     UIApplication *app=[UIApplication sharedApplication];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:app];
+    
+    NSLog(@"FlipsideViewController--viewWillAppear");
 }
 
+//收到通知时调用
 -(void)willEnterForeground:(NSNotification *)notification
 {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    //同步设置
     [defaults synchronize];
     [self refreshFields];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+//刷新界面
 - (void)refreshFields {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.engineSwitch.on = [defaults boolForKey:kWarpDriveKey];
     self.warpFactorSlider.value = [defaults floatForKey:kWarpFactorKey];
-    
 }
 
 - (IBAction)engineSwitchTapped {
@@ -61,8 +61,8 @@
 }
 
 - (IBAction)done:(id)sender {
+    //调用委托对象的方法
     [self.delegate flipsideViewControllerDidFinish:self];
-    NSLog(@"done被按下");
 }
 /*
 #pragma mark - Navigation
